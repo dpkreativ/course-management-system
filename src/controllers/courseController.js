@@ -59,10 +59,43 @@ const deleteCourse = async (req, res) => {
   });
 };
 
+// Edit specific course
+const editCourse = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["name", "description", "author", "link"];
+  const isValidOperation = updates.every((update) =>
+    allowedUpdates.includes(update)
+  );
+
+  if (!isValidOperation) {
+    res.code(400).send({ error: "Not a valid operation." });
+    return;
+  }
+
+  try {
+    const updatedCourse = await client.update({
+      table: "courses",
+      records: [
+        {
+          id: req.params.id,
+          name: req.body.name,
+          description: req.body.description,
+          author: req.body.author,
+          link: req.body.link,
+        },
+      ],
+    });
+    res.send({ updatedCourse });
+  } catch (error) {
+    res.send({ error });
+  }
+};
+
 // Export controllers
 module.exports = {
   getCourses,
   addCourse,
   getSpecificCourse,
   deleteCourse,
+  editCourse,
 };
