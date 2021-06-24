@@ -7,6 +7,7 @@ const getCourses = async (req, res) => {
   res.send({ allCourses });
 };
 
+// Add new course
 const addCourse = async (req, res) => {
   const allProperties = Object.keys(req.body).length;
 
@@ -37,8 +38,18 @@ const addCourse = async (req, res) => {
   }
 };
 
+// Get specific course
+const getSpecificCourse = async (req, res) => {
+  const course = await client.query(
+    `SELECT * FROM mydb.courses WHERE id=${req.params.id}`
+  );
+
+  res.send({ course });
+};
+
 // Export controllers
 module.exports = {
   getCourses,
   addCourse,
+  getSpecificCourse,
 };
