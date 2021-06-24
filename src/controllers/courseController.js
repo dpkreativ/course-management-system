@@ -47,9 +47,22 @@ const getSpecificCourse = async (req, res) => {
   res.send({ course });
 };
 
+// Delete specific course
+const deleteCourse = async (req, res) => {
+  const course = await client.query(
+    `DELETE FROM mydb.courses WHERE id="${req.params.id}"`
+  );
+
+  res.send({
+    message: "Course deleted!",
+    deleteCourse: course,
+  });
+};
+
 // Export controllers
 module.exports = {
   getCourses,
   addCourse,
   getSpecificCourse,
+  deleteCourse,
 };
