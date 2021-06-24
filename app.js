@@ -2,6 +2,8 @@ const app = require("fastify")({ logger: true });
 
 require("dotenv").config();
 
+app.register(require("./src/routes/course"));
+
 app.get("/", (req, res) => {
   res.send({ hello: "World" });
 });
